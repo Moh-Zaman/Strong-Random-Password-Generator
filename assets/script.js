@@ -96,61 +96,75 @@ var passNum
 var passSpecial
 
 function getPasswordOptions() {
-  passLength = prompt("How long do you want your password.")
-  if (passLength < 8) {
-    alert("Has to be higher than 8"); return getPasswordOptions();
-  } else if (passLength > 128) {
-    alert("Has to be less than 128"); return getPasswordOptions();
-  } else if (passLength > 8 && passLength < 128) {
-    alert("Perfect, your password will be " + passLength + " characters long");
-  } else return getPasswordOptions(); 
+  passLength = parseInt(prompt("How long do you want your password."));
   
-  passLower = prompt("Do you want Lowercase? Y/N")
-  if (passLower !== "Y" && passLower === "N") {
-    alert("Great, your password will have lowercase characters");
-  } else if (passLower !== "N" && passLower === "Y") {
-    alert("Great, your password will have lowercase characters");
-  } else if (passLower !== "N" || passLower === "Y") {
-    alert("Please select Y or N. Restarting"); return getPasswordOptions();
+  if (passLength < 8 || passLength > 128 || isNaN(passLength)) {
+    alert("Password length must be between 8 and 128 characters.");
+    return getPasswordOptions();
   }
   
-  passUpper = prompt("Do you want Uppercase? Y/N");
-  if (passUpper !== "Y" && passUpper === "N") {
-    alert("Great, your password will have uppercase characters");
-  } else if (passUpper !== "N" && passUpper === "Y") {
-    alert("Great, your password will have uppercase characters");
-  } else if (passUpper !== "N" || passUpper === "Y") {
-    alert("Please select Y or N. Restarting"); return getPasswordOptions();
-  }
-  
-  passNum = prompt("Do you want Numbers? Y/N");
-  if (passNum !== "Y" && passNum === "N") {
-    alert("Great, your password will have numerical characters");
-  } else if (passNum !== "N" && passNum === "Y") {
-    alert("Great, your password will have numerical characters");
-  } else if (passNum !== "N" || passNum === "Y") {
-    alert("Please select Y or N. Restarting"); return getPasswordOptions();
-  }
-  
-  passSpecial = prompt("Do you want Special Characters? Y/N");
-  if (passSpecial !== "Y" && passSpecial === "N") {
-    alert("Great, your password will have special characters");
-  } else if (passSpecial !== "N" && passSpecial === "Y") {
-    alert("Great, your password will have special characters");
-  } else if (passSpecial !== "N" || passSpecial === "Y") {
-    alert("Please select Y or N. Restarting"); return getPasswordOptions();
-  }
+  passLower = confirm("Do you want lowercase characters?");
+  passUpper = confirm("Do you want uppercase characters?");
+  passNum = confirm("Do you want numerical characters?");
+  passSpecial = confirm("Do you want special characters?");
+
+  if (!passLower && !passUpper && !passNum && !passSpecial) {
+    alert("You must select at least one character type.");
+    return getPasswordOptions();
 }
 
 // Function for getting a random element from an array
-function getRandom(arr) {
-  var shuffledLower = lowerCasedCharacters.sort(() => 0.5 - Math.random());
-    var resultLower = shuffledLower.slice(0, passLower)
+var result
+
+function getRandom(arr, n) {
+  var shuffledArr = arr.sort(() => 0.5 - Math.random());
+  result = shuffledArr.slice(0, n)
 }
 
 // Function to generate password with user input
 function generatePassword() {
-
+  if (passLower === "Y" && passUpper === "Y" && passNum === "Y" && passSpecial === "Y") {
+    var a = passLower.concat(passUpper, passNum, passSpecial);
+    getRandom(a, passLength);
+  } else if (passLower !== "Y" && passUpper === "Y" && passNum === "Y" && passSpecial === "Y") {
+    var b = passUpper.concat(passNum, passSpecial);
+    getRandom(b, passLength)
+  } else if (passLower === "Y" && passUpper !== "Y" && passNum === "Y" && passSpecial === "Y") {
+    var c = passLower.concat(passNum, passSpecial);
+    getRandom(c, passLength)
+  } else if (passLower === "Y" && passUpper === "Y" && passNum !== "Y" && passSpecial === "Y") {
+    var d = passLower.concat(passUpper, passSpecial);
+    getRandom(d, passLength)
+  } else if (passLower === "Y" && passUpper === "Y" && passNum === "Y" && passSpecial !== "Y") {
+    var e = passLower.concat(passUpper, passNum);
+    getRandom(e, passLength)
+  } else if (passLower !== "Y" && passUpper !== "Y" && passNum === "Y" && passSpecial === "Y") {
+    var f = passNum.concat(passSpecial);
+    getRandom(f, passLength)
+  } else if (passLower !== "Y" && passUpper === "Y" && passNum !== "Y" && passSpecial === "Y") {
+    var g = passUpper.concat(passSpecial);
+    getRandom(g, passLength)
+  } else if (passLower !== "Y" && passUpper === "Y" && passNum === "Y" && passSpecial !== "Y") {
+    var h = passUpper.concat(passNum);
+    getRandom(h, passLength)
+  } else if (passLower === "Y" && passUpper !== "Y" && passNum !== "Y" && passSpecial === "Y") {
+    var i = passLower.concat(passSpecial);
+    getRandom(i, passLength)
+  } else if (passLower === "Y" && passUpper !== "Y" && passNum === "Y" && passSpecial !== "Y") {
+    var j = passLower.concat(passNum);
+    getRandom(j, passLength)
+  } else if (passLower === "Y" && passUpper === "Y" && passNum !== "Y" && passSpecial !== "Y") {
+    var k = passLower.concat(passUpper);
+    getRandom(k, passLength)
+  } else if (passLower === "Y" && passUpper !== "Y" && passNum !== "Y" && passSpecial !== "Y") {
+    getRandom(lowerCasedCharacters, passLength)
+  } else if (passLower !== "Y" && passUpper === "Y" && passNum !== "Y" && passSpecial !== "Y") {
+    getRandom(upperCasedCharacters, passLength)
+  } else if (passLower !== "Y" && passUpper !== "Y" && passNum === "Y" && passSpecial !== "Y") {
+    getRandom(numericCharacters, passLength)
+  } else if (passLower !== "Y" && passUpper !== "Y" && passNum !== "Y" && passSpecial === "Y") {
+    getRandom(specialCharacters, passLength)
+  }
 }
 
 // Get references to the #generate element
@@ -168,8 +182,7 @@ function writePassword() {
 generateBtn.addEventListener('click', writePassword);
 
 getPasswordOptions();
-console.log(passLower)
-console.log(passUpper)
-console.log(passNum)
-console.log(passSpecial)
+
+
+
 
