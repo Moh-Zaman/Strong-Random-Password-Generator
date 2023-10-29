@@ -112,57 +112,58 @@ function getPasswordOptions() {
     alert("You must select at least one character type.");
     return getPasswordOptions();
 }
+}
 
 // Function for getting a random element from an array
-var result
+var password
 
 function getRandom(arr, n) {
   var shuffledArr = arr.sort(() => 0.5 - Math.random());
-  result = shuffledArr.slice(0, n)
+  password = shuffledArr.slice(0, n)
 }
 
 // Function to generate password with user input
 function generatePassword() {
-  if (passLower === "Y" && passUpper === "Y" && passNum === "Y" && passSpecial === "Y") {
-    var a = passLower.concat(passUpper, passNum, passSpecial);
+  if (passLower && passUpper && passNum && passSpecial) {
+    var a = lowerCasedCharacters.concat(upperCasedCharacters, numericCharacters, specialCharacters);
     getRandom(a, passLength);
-  } else if (passLower !== "Y" && passUpper === "Y" && passNum === "Y" && passSpecial === "Y") {
-    var b = passUpper.concat(passNum, passSpecial);
+  } else if (!passLower && passUpper && passNum && passSpecial) {
+    var b = upperCasedCharacters.concat(numericCharacters, specialCharacters);
     getRandom(b, passLength)
-  } else if (passLower === "Y" && passUpper !== "Y" && passNum === "Y" && passSpecial === "Y") {
-    var c = passLower.concat(passNum, passSpecial);
+  } else if (passLower && !passUpper && passNum && passSpecial) {
+    var c = lowerCasedCharacters.concat(numericCharacters, specialCharacters);
     getRandom(c, passLength)
-  } else if (passLower === "Y" && passUpper === "Y" && passNum !== "Y" && passSpecial === "Y") {
-    var d = passLower.concat(passUpper, passSpecial);
+  } else if (passLower && passUpper && !passNum && passSpecial) {
+    var d = lowerCasedCharacters.concat(upperCasedCharacters, specialCharacters);
     getRandom(d, passLength)
-  } else if (passLower === "Y" && passUpper === "Y" && passNum === "Y" && passSpecial !== "Y") {
-    var e = passLower.concat(passUpper, passNum);
+  } else if (passLower && passUpper && passNum && !passSpecial) {
+    var e = lowerCasedCharacters.concat(upperCasedCharacters, numericCharacters);
     getRandom(e, passLength)
-  } else if (passLower !== "Y" && passUpper !== "Y" && passNum === "Y" && passSpecial === "Y") {
-    var f = passNum.concat(passSpecial);
+  } else if (!passLower && !passUpper && passNum && passSpecial) {
+    var f = numericCharacters.concat(specialCharacters);
     getRandom(f, passLength)
-  } else if (passLower !== "Y" && passUpper === "Y" && passNum !== "Y" && passSpecial === "Y") {
-    var g = passUpper.concat(passSpecial);
+  } else if (!passLower && passUpper && !passNum && passSpecial) {
+    var g = upperCasedCharacters.concat(specialCharacters);
     getRandom(g, passLength)
-  } else if (passLower !== "Y" && passUpper === "Y" && passNum === "Y" && passSpecial !== "Y") {
-    var h = passUpper.concat(passNum);
+  } else if (!passLower && passUpper && passNum && !passSpecial) {
+    var h = upperCasedCharacters.concat(numericCharacters);
     getRandom(h, passLength)
-  } else if (passLower === "Y" && passUpper !== "Y" && passNum !== "Y" && passSpecial === "Y") {
-    var i = passLower.concat(passSpecial);
+  } else if (passLower && !passUpper && !passNum && passSpecial) {
+    var i = lowerCasedCharacters.concat(specialCharacters);
     getRandom(i, passLength)
-  } else if (passLower === "Y" && passUpper !== "Y" && passNum === "Y" && passSpecial !== "Y") {
-    var j = passLower.concat(passNum);
+  } else if (passLower && !passUpper && passNum && !passSpecial) {
+    var j = lowerCasedCharacters.concat(numericCharacters);
     getRandom(j, passLength)
-  } else if (passLower === "Y" && passUpper === "Y" && passNum !== "Y" && passSpecial !== "Y") {
-    var k = passLower.concat(passUpper);
+  } else if (passLower && passUpper && !passNum && !passSpecial) {
+    var k = lowerCasedCharacters.concat(upperCasedCharacters);
     getRandom(k, passLength)
-  } else if (passLower === "Y" && passUpper !== "Y" && passNum !== "Y" && passSpecial !== "Y") {
+  } else if (passLower && !passUpper && !passNum && !passSpecial) {
     getRandom(lowerCasedCharacters, passLength)
-  } else if (passLower !== "Y" && passUpper === "Y" && passNum !== "Y" && passSpecial !== "Y") {
+  } else if (!passLower && passUpper  && !passNum && !passSpecial) {
     getRandom(upperCasedCharacters, passLength)
-  } else if (passLower !== "Y" && passUpper !== "Y" && passNum === "Y" && passSpecial !== "Y") {
+  } else if (!passLower && !passUpper && passNum && !passSpecial) {
     getRandom(numericCharacters, passLength)
-  } else if (passLower !== "Y" && passUpper !== "Y" && passNum !== "Y" && passSpecial === "Y") {
+  } else if (!passLower && !passUpper && !passNum && passSpecial) {
     getRandom(specialCharacters, passLength)
   }
 }
@@ -182,7 +183,5 @@ function writePassword() {
 generateBtn.addEventListener('click', writePassword);
 
 getPasswordOptions();
-
-
-
-
+generatePassword();
+console.log(password);
