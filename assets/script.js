@@ -89,83 +89,58 @@ var upperCasedCharacters = [
 ];
 
 // Function to prompt user for password options
-var passLength
-var passLower
-var passUpper
-var passNum
-var passSpecial
-
 function getPasswordOptions() {
-  passLength = parseInt(prompt("How long do you want your password."));
+  var passLength = parseInt(prompt("How long do you want your password?"));
   
   if (passLength < 8 || passLength > 128 || isNaN(passLength)) {
     alert("Password length must be between 8 and 128 characters.");
     return getPasswordOptions();
   }
-  
-  passLower = confirm("Do you want lowercase characters?");
-  passUpper = confirm("Do you want uppercase characters?");
-  passNum = confirm("Do you want numerical characters?");
-  passSpecial = confirm("Do you want special characters?");
 
+  var passLower = confirm("Do you want lowercase characters?");
+  var passUpper = confirm("Do you want uppercase characters?");
+  var passNum = confirm("Do you want numerical characters?");
+  var passSpecial = confirm("Do you want special characters?");
+  
   if (!passLower && !passUpper && !passNum && !passSpecial) {
     alert("You must select at least one character type.");
     return getPasswordOptions();
-}
+  }
+
+  return {
+    passLength,
+    passLower,
+    passUpper,
+    passNum,
+    passSpecial
+  };
 }
 
 // Function for getting a random element from an array
 var password
 
-function getRandom(arr, n) {
-  var shuffledArr = arr.sort(() => 0.5 - Math.random());
-  password = shuffledArr.slice(0, n)
+function getRandom(arr) {
+  var n = Math.floor(Math.random() * arr.length);
+  return arr[n];
 }
 
 // Function to generate password with user input
 function generatePassword() {
-  if (passLower && passUpper && passNum && passSpecial) {
-    var a = lowerCasedCharacters.concat(upperCasedCharacters, numericCharacters, specialCharacters);
-    getRandom(a, passLength);
-  } else if (!passLower && passUpper && passNum && passSpecial) {
-    var b = upperCasedCharacters.concat(numericCharacters, specialCharacters);
-    getRandom(b, passLength)
-  } else if (passLower && !passUpper && passNum && passSpecial) {
-    var c = lowerCasedCharacters.concat(numericCharacters, specialCharacters);
-    getRandom(c, passLength)
-  } else if (passLower && passUpper && !passNum && passSpecial) {
-    var d = lowerCasedCharacters.concat(upperCasedCharacters, specialCharacters);
-    getRandom(d, passLength)
-  } else if (passLower && passUpper && passNum && !passSpecial) {
-    var e = lowerCasedCharacters.concat(upperCasedCharacters, numericCharacters);
-    getRandom(e, passLength)
-  } else if (!passLower && !passUpper && passNum && passSpecial) {
-    var f = numericCharacters.concat(specialCharacters);
-    getRandom(f, passLength)
-  } else if (!passLower && passUpper && !passNum && passSpecial) {
-    var g = upperCasedCharacters.concat(specialCharacters);
-    getRandom(g, passLength)
-  } else if (!passLower && passUpper && passNum && !passSpecial) {
-    var h = upperCasedCharacters.concat(numericCharacters);
-    getRandom(h, passLength)
-  } else if (passLower && !passUpper && !passNum && passSpecial) {
-    var i = lowerCasedCharacters.concat(specialCharacters);
-    getRandom(i, passLength)
-  } else if (passLower && !passUpper && passNum && !passSpecial) {
-    var j = lowerCasedCharacters.concat(numericCharacters);
-    getRandom(j, passLength)
-  } else if (passLower && passUpper && !passNum && !passSpecial) {
-    var k = lowerCasedCharacters.concat(upperCasedCharacters);
-    getRandom(k, passLength)
-  } else if (passLower && !passUpper && !passNum && !passSpecial) {
-    getRandom(lowerCasedCharacters, passLength)
-  } else if (!passLower && passUpper  && !passNum && !passSpecial) {
-    getRandom(upperCasedCharacters, passLength)
-  } else if (!passLower && !passUpper && passNum && !passSpecial) {
-    getRandom(numericCharacters, passLength)
-  } else if (!passLower && !passUpper && !passNum && passSpecial) {
-    getRandom(specialCharacters, passLength)
+  var passOptions = getPasswordOptions();
+  var characters = [];
+  
+  if (passOptions.passLower) characters = characters.concat(lowerCasedCharacters);
+  if (passOptions.passUpper) characters = characters.concat(upperCasedCharacters);
+  if (passOptions.passNum) characters = characters.concat(numericCharacters);
+  if (passOptions.passSpecial) characters = characters.concat(specialCharacters);
+  
+  var password = '';
+  
+  for (var i = 0; i < passOptions.passLength; i++) {
+    password += getRandom(characters);
   }
+  
+  return password;
 }
 
 // Get references to the #generate element
@@ -182,6 +157,3 @@ function writePassword() {
 // Add event listener to generate button
 generateBtn.addEventListener('click', writePassword);
 
-getPasswordOptions();
-generatePassword();
-console.log(password);
