@@ -117,8 +117,6 @@ function getPasswordOptions() {
 }
 
 // Function for getting a random element from an array
-var password
-
 function getRandom(arr) {
   var n = Math.floor(Math.random() * arr.length);
   return arr[n];
