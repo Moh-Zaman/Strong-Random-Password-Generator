@@ -89,13 +89,28 @@ var upperCasedCharacters = [
 ];
 
 // Function to prompt user for password options
-function getPasswordOptions() {
+var passLength
+var passLower
+var passUpper
+var passNum
+var passSpecial
 
+function getPasswordOptions() {
+  passLength = prompt("How long do you want your password.")
+  if (passLength < 8) {
+    alert("Has to be higher than 8"); return;
+  } else if (passLength > 128) {
+    alert("Has to be less than 128"); return;
+  } else alert("Perfect, your password will be " + passLength + " characters long");
+  passLower = prompt("Do you want Lowercase. Y/N");
+  passUpper = prompt("Do you want Uppercase. Y/N");
+  passNum = prompt("Do you want Numbers. Y/N");
+  passSpecial = prompt("Do you want Special Characters. Y/N");
 }
 
 // Function for getting a random element from an array
 function getRandom(arr) {
-
+  
 }
 
 // Function to generate password with user input
@@ -116,3 +131,6 @@ function writePassword() {
 
 // Add event listener to generate button
 generateBtn.addEventListener('click', writePassword);
+
+getPasswordOptions();
+getRandom();
